@@ -3,15 +3,25 @@
 
 #define MAX_LEN 100 // 최대 입력 길이 정의
 
+// 스택에 괄호를 추가하는 함수
+void push(char* stack, int* top, char bracket) {
+    (*top)++; // 스택의 top 위치를 하나 증가시킴
+    stack[*top] = bracket; // 스택에 괄호를 저장
+}
+
+// 스택에서 괄호를 제거하는 함수
+void pop(int* top) {
+    (*top)--; // 스택의 top 위치를 하나 감소시킴
+}
+
 // 문자열이 균형잡힌 괄호를 포함하는지 판별하는 함수
 int isBalanced(const char* str) {
-    char* stack = (char*)malloc(MAX_LEN * sizeof(char)); // 괄호를 저장할 동적 배열(스택) 할당
+    char* stack = (char*)malloc(MAX_LEN * sizeof(char)); // 괄호를 저장할 스택 할당
     int top = -1; // 스택의 최상단 인덱스 초기화. 스택이 비어있음을 나타냄.
 
-    for (int i = 0; str[i] != '.'; ++i) { // 문자열의 마지막까지 반복
+    for (int i = 0; str[i] != '.'; ++i) { // 문자열의 마지막(온점) 까지 반복
         if (str[i] == '(' || str[i] == '[') { // 여는 괄호를 만난 경우
-            top++; // 스택에 괄호를 push하기 전에 top 인덱스 증가
-            stack[top] = str[i]; // 스택에 괄호 push
+            push(stack, &top, str[i]); // push 함수를 호출하여 스택에 괄호 추가
         }
         else if (str[i] == ')' || str[i] == ']') { // 닫는 괄호를 만난 경우
             if (top == -1) { // 스택이 비어있으면 균형이 맞지 않음
@@ -24,7 +34,7 @@ int isBalanced(const char* str) {
                 free(stack); // 동적 할당된 메모리 해제
                 return 0; // false 반환
             }
-            top--; // 스택에서 pop (실제로 제거하지는 않고 인덱스만 조정)
+            pop(&top); // pop 함수를 호출하여 스택에서 괄호 제거
         }
     }
 
@@ -34,7 +44,7 @@ int isBalanced(const char* str) {
 }
 
 int main() {
-    char input[MAX_LEN + 1]; // 입력받을 문자열 배열 (+1은 널 종료 문자를 위함)
+    char input[MAX_LEN + 1]; // 입력받을 문자열 배열 (+1은 널 문자를 위함)
 
     while (1) {
         fgets(input, MAX_LEN, stdin); // 한 줄 입력 받기
