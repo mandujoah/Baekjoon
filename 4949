@@ -25,13 +25,13 @@ int isBalanced(const char* str) {
         }
         else if (str[i] == ')' || str[i] == ']') { // 닫는 괄호를 만난 경우
             if (top == -1) { // 스택이 비어있으면 균형이 맞지 않음
-                free(stack); // 동적 할당된 메모리 해제
+                free(stack); 
                 return 0; // false 반환
             }
 
             char match = (str[i] == ')') ? '(' : '['; // 짝을 이루는 여는 괄호
             if (stack[top] != match) { // 스택의 top과 짝이 맞지 않는 경우
-                free(stack); // 동적 할당된 메모리 해제
+                free(stack); 
                 return 0; // false 반환
             }
             pop(&top); // pop 함수를 호출하여 스택에서 괄호 제거
@@ -39,7 +39,7 @@ int isBalanced(const char* str) {
     }
 
     int result = (top == -1) ? 1 : 0; // 스택이 비어있으면 true, 그렇지 않으면 false
-    free(stack); // 동적 할당된 메모리 해제
+    free(stack); 
     return result;
 }
 
@@ -47,19 +47,19 @@ int main() {
     char input[MAX_LEN + 1]; // 입력받을 문자열 배열 (+1은 널 문자를 위함)
 
     while (1) {
-        fgets(input, MAX_LEN, stdin); // 한 줄 입력 받기
+        fgets(input, MAX_LEN, stdin); // scanf사용 시 공백, 탭, 개행 문자 등을 문자열의 종료로 간주
 
         // 입력의 종료 조건 확인: 첫 문자가 '.'이고, 두 번째 문자가 개행('\n') 또는 널('\0')
         if (input[0] == '.' && (input[1] == '\n' || input[1] == '\0')) break;
 
-        // 균형잡힌 괄호 문자열인지 판별하여 결과 출력
+        // 결과 출력
         if (isBalanced(input)) {
-            printf("yes\n"); // 균형잡힌 경우
+            printf("yes\n");
         }
         else {
-            printf("no\n"); // 균형이 맞지 않는 경우
+            printf("no\n"); 
         }
     }
 
-    return 0; // 프로그램 정상 종료
+    return 0; 
 }
